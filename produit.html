@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/ce82fe516e.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <script type="text/javascript" src=server.js></script>
-    <script type="text/javascript" src=index.js></script>
+    <script type="text/javascript" src=produit.js></script>
     <script type="text/javascript" src=app.js></script>
 </head>
 <body>
@@ -30,16 +30,30 @@
             </div>
         </div>
     </header>
-<!-- Hero -->
-<div class="jumbotron bg-light">
+    <!-- Présentation du produit -->
+<main>
     <div class=container>
-        <h1 class="col text-center display-4"> Découvrez nos oursons en peluche fait main </h1>
+        <div class=row>
+            <h1 id=titre></h1>
+            <div id=image class="col-12 col-lg-3 my-auto"></div>
+            <div  class="col-12 col-lg-9">
+                <div>
+                    <p class=fw-bold> Description :</p>
+                    <p id=description></p>
+                </div>
+                <form>
+                    <p class=fw-bold> Choix de la couleur </p>
+                    <select id=couleur >                    
+                    </select>
+                </form>
+                <div>
+                    <p class='fw-bold my-3'> Prix : </p>
+                    <p id=prix></p>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<!-- Main, affichage en JS-->
-<main class=container>
-    <div class=row id=mainContent>
-    </div>
+    <input class="btn btn-success d-block mx-auto col-6 my-4" id=commander value=Commander>
 </main>
 <!-- Footer -->
 <footer>

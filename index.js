@@ -24,14 +24,15 @@ request.onreadystatechange = function () {
                 main.appendChild(Img);
                 Img.src = response[i].imageUrl;
                 Img.classList.add("col-10","img-fluid","rounded","mx-auto","d-block");
+                Img.style.width = "250px";
+                Img.style.height = "200px";
                 main.appendChild(lienProduit);
-                lienProduit.classList.add("btn","btn-info","mx-auto","d-block","col-6");
+                lienProduit.classList.add("btn","btn-info","mx-auto","d-block","col-6","my-3");
                 lienProduit.value="Fiche Produit";
-                lienProduit.onclick = function (produit) {
-                    produit=i;
-                    console.log(produit);
+                lienProduit.onclick = function () {
+                    localStorage.setItem('product',i);
+                    document.location.href = "produit.html";
                 }
-
             };
         };
     };
