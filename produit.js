@@ -1,6 +1,6 @@
 let produit = localStorage.getItem('product');
 let request = new XMLHttpRequest();
-let commande = document.getElementById('commander');
+
 
 document.addEventListener ('DOMContentLoaded', function() {
     request.open("GET", "http://localhost:3000/api/teddies");
@@ -16,6 +16,7 @@ request.onreadystatechange = function () {
         const couleur = document.getElementById('couleur');
         const Img =document.createElement('img');
         const price = document.getElementById('prix');
+        const commande = document.getElementById('commander');
         image.appendChild(Img);
         titre.textContent = response[produit].name;
         titre.classList.add("text-center");
@@ -28,10 +29,9 @@ request.onreadystatechange = function () {
             choix.textContent = response[produit].colors[i];
         price.textContent = response[produit].price + '€';
         };
-
+        commande.onclick = function () {
+            document.location.href = "panier.html";
+            localStorage.setItem('achat',response[produit]._id);
+        };
     };
-};
-
-commande.onclick = function () {
-    document.location.href = "panier.html";
 };
