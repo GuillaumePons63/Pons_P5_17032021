@@ -52,8 +52,12 @@ commander.addEventListener ('click', () => {
         requeteAchat.setRequestHeader("Content-Type","application/json");
         requeteAchat.send(JSON.stringify(envoie));
         requeteAchat.onload = function () {
-            let reponse = JSON.parse(requeteAchat.response);
-            console.log(reponse);
+            let response = JSON.parse(requeteAchat.response);
+            console.log(response);
+            localStorage.setItem('Nom',response.contact.lastName)
+            localStorage.setItem('commande',response.orderId)
+            localStorage.setItem('email',response.contact.email)
             };
+        document.location.href='validation.html';
 });
 
