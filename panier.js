@@ -1,6 +1,9 @@
 let achat = localStorage.getItem('achat');
 let request = new XMLHttpRequest();
 const commander = document.getElementById('commande');
+let products= [];
+products.push(achat);
+
 
 document.addEventListener ('DOMContentLoaded', function() {
     request.open("GET", "http://localhost:3000/api/teddies/"+achat);
@@ -27,3 +30,30 @@ request.onreadystatechange = function () {
     prixTotal.textContent = response.price + '€';
     };
 };
+
+commander.addEventListener ('click', () => {
+        let lastName = document.getElementById('lastName');
+        let firstName = document.getElementById('firstName');
+        let adress = document.getElementById('adress');
+        let city = document.getElementById('city');
+        let email = document.getElementById('email');
+        const envoie = {
+            contact :{
+            firstName : firstName.value,
+            lastName : lastName.value,            
+            address : adress.value,
+            city : city.value,
+            email : email.value
+        },
+        products,
+    };
+        let requeteAchat = new XMLHttpRequest() ;
+        requeteAchat.open("POST","http://localhost:3000/api/teddies/order");
+        requeteAchat.setRequestHeader("Content-Type","application/json");
+        requeteAchat.send(JSON.stringify(envoie));
+        requeteAchat.onload = function () {
+            let reponse = JSON.parse(requeteAchat.response);
+            console.log(reponse);
+            };
+});
+
