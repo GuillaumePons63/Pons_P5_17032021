@@ -4,11 +4,12 @@ console.log(achat);
 let request = new XMLHttpRequest();
 const commander = document.getElementById('commande');
 let products= [];
-products.push(achat);
+products.push(achat.produit);
+
 
 
 document.addEventListener ('DOMContentLoaded', function() {
-    request.open("GET", "http://localhost:3000/api/teddies/"+achat);
+    request.open("GET", "http://localhost:3000/api/teddies/"+achat.produit);
     request.send();
 });
 
@@ -19,18 +20,23 @@ request.onreadystatechange = function () {
     const Img = document.createElement('img');
     const nom = document.createElement('div');
     const prix = document.createElement('div');
+    const quantity = document.createElement('div');
     panier.appendChild(Img);
     panier.appendChild(nom);
     panier.appendChild(prix);
+    panier.appendChild(quantity);
     Img.src = response.imageUrl;
     Img.classList.add('col-3');
     nom.textContent=response.name;
-    nom.classList.add('col-4');
+    nom.classList.add('col-3');
     prix.textContent=response.price+'€';
-    prix.classList.add('col-5');
+    prix.classList.add('col-3');
+    quantity.textContent='Quantité :'+achat.quantity;
+    quantity.classList.add('col-3');
     const prixTotal = document.getElementById('total');
-    prixTotal.textContent = response.price + '€';
-    localStorage.setItem('prix',response.price);
+    let PrixTotal = achat.quantity * response.price;
+    prixTotal.textContent = PrixTotal + '€';
+    localStorage.setItem('prix',PrixTotal);
     };
 };
 
