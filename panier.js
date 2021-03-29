@@ -1,4 +1,6 @@
-let achat = localStorage.getItem('achat');
+let achatParse = localStorage.getItem('achat');
+let achat = JSON.parse(achatParse);
+console.log(achat);
 let request = new XMLHttpRequest();
 const commander = document.getElementById('commande');
 let products= [];
@@ -28,6 +30,7 @@ request.onreadystatechange = function () {
     prix.classList.add('col-5');
     const prixTotal = document.getElementById('total');
     prixTotal.textContent = response.price + '€';
+    localStorage.setItem('prix',response.price);
     };
 };
 
@@ -53,11 +56,11 @@ commander.addEventListener ('click', () => {
         requeteAchat.send(JSON.stringify(envoie));
         requeteAchat.onload = function () {
             let response = JSON.parse(requeteAchat.response);
-            console.log(response);
-            localStorage.setItem('Nom',response.contact.lastName)
-            localStorage.setItem('commande',response.orderId)
-            localStorage.setItem('email',response.contact.email)
-            };
-        document.location.href='validation.html';
+            localStorage.setItem('nom',response.contact.lastName);
+            localStorage.setItem('commande',response.orderId);
+            localStorage.setItem('email',response.contact.email);
+            document.location.href = 'validation.html';
+        }
+        
 });
 

@@ -1,5 +1,5 @@
 let request = new XMLHttpRequest();
-let produit = 0;
+
 
 document.addEventListener ('DOMContentLoaded', function() {
     request.open("GET", "http://localhost:3000/api/teddies");

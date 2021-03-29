@@ -30,8 +30,34 @@ request.onreadystatechange = function () {
         price.textContent = response[produit].price + '€';
         };
         commande.onclick = function () {
-            document.location.href = "panier.html";
-            localStorage.setItem('achat',response[produit]._id);
-        };
+            const content = document.getElementById ('quantiteContent') ;
+            const titre = document.createElement ('div');
+            const input = document.createElement('input');
+            const row = document.createElement('div'); 
+            const bouton = document.createElement ('input');
+            content.appendChild(titre);
+            content.appendChild(row)
+            row.appendChild(input);
+            content.appendChild(bouton);
+            titre.textContent = 'Quantité' ;
+            titre.classList.add('fw-bold');
+            row.classList.add('row','mx-auto');
+            input.type = 'number' ;
+            input.min = '1';
+            input.classList.add('my-3','mx-auto','col-6');
+            input.placeholder = '1';
+            bouton.type = 'button' ;
+            bouton.value = 'Ajouter au panier';
+            bouton.classList.add('btn','btn-success','mx-auto','my-3','col-6');
+            bouton.onclick = function () {
+                let ajoutPanier = {
+                    produit : response[produit]._id,
+                    quantity : input.value,
+                }
+                localStorage.setItem('achat',JSON.stringify(ajoutPanier));
+                document.location.href = "panier.html";
+            }
+        }
+        
     };
 };
