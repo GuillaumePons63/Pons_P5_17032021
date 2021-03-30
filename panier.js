@@ -22,6 +22,7 @@ let products= [];
 
 
 const commander = document.getElementById('commande');
+let PrixTotal=0;
 
 
 for (let i in panier) {
@@ -52,7 +53,8 @@ for (let i in panier) {
         quantity.textContent='Quantité :'+panier[i].quantity;
         quantity.classList.add('col-3');
         const prixTotal = document.getElementById('total');
-        let PrixTotal = achat.quantity * response.price;
+        PrixTotal += (panier[i].quantity * response.price);
+        console.log(PrixTotal);
         prixTotal.textContent = PrixTotal + '€';
         localStorage.setItem('prix',PrixTotal);
         };
