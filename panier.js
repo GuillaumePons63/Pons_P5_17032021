@@ -1,44 +1,65 @@
 let achatParse = localStorage.getItem('achat');
+let panierParse = localStorage.getItem('ajoutPanier');
+
+let ajoutPanier = JSON.parse(panierParse);
 let achat = JSON.parse(achatParse);
-console.log(achat);
-let request = new XMLHttpRequest();
-const commander = document.getElementById('commande');
+
+
+let panier = [];
+    for (let i in ajoutPanier) {
+        panier.push(ajoutPanier[i])
+    }
+panier.push(achat);
+localStorage.setItem('ajoutPanier',JSON.stringify(panier));
+console.log(panier);
+
+
 let products= [];
-products.push(achat.produit);
+    for (let i = 0; i < achat.quantity; i++) {
+    products.push(achat.produit);
+    }
 
 
 
-document.addEventListener ('DOMContentLoaded', function() {
-    request.open("GET", "http://localhost:3000/api/teddies/"+achat.produit);
-    request.send();
-});
+const commander = document.getElementById('commande');
 
-request.onreadystatechange = function () {
-    if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-    let response = JSON.parse(this.responseText);
-    const panier = document.getElementById('panier');
-    const Img = document.createElement('img');
-    const nom = document.createElement('div');
-    const prix = document.createElement('div');
-    const quantity = document.createElement('div');
-    panier.appendChild(Img);
-    panier.appendChild(nom);
-    panier.appendChild(prix);
-    panier.appendChild(quantity);
-    Img.src = response.imageUrl;
-    Img.classList.add('col-3');
-    nom.textContent=response.name;
-    nom.classList.add('col-3');
-    prix.textContent=response.price+'€';
-    prix.classList.add('col-3');
-    quantity.textContent='Quantité :'+achat.quantity;
-    quantity.classList.add('col-3');
-    const prixTotal = document.getElementById('total');
-    let PrixTotal = achat.quantity * response.price;
-    prixTotal.textContent = PrixTotal + '€';
-    localStorage.setItem('prix',PrixTotal);
+
+for (let i in panier) {
+    let request = new XMLHttpRequest();
+    document.addEventListener ('DOMContentLoaded', function() {
+        request.open("GET", "http://localhost:3000/api/teddies/"+panier[i].produit);
+        request.send();
+    });
+
+    request.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+        let response = JSON.parse(this.responseText);
+        const article = document.getElementById('panier');
+        const Img = document.createElement('img');
+        const nom = document.createElement('div');
+        const prix = document.createElement('div');
+        const quantity = document.createElement('div');
+        article.appendChild(Img);
+        article.appendChild(nom);
+        article.appendChild(prix);
+        article.appendChild(quantity);
+        Img.src = response.imageUrl;
+        Img.classList.add('col-3');
+        nom.textContent=response.name;
+        nom.classList.add('col-3');
+        prix.textContent=response.price+'€';
+        prix.classList.add('col-3');
+        quantity.textContent='Quantité :'+panier[i].quantity;
+        quantity.classList.add('col-3');
+        const prixTotal = document.getElementById('total');
+        let PrixTotal = achat.quantity * response.price;
+        prixTotal.textContent = PrixTotal + '€';
+        localStorage.setItem('prix',PrixTotal);
+        };
     };
-};
+}
+
+
 
 commander.addEventListener ('click', () => {
         let lastName = document.getElementById('lastName');
@@ -66,7 +87,9 @@ commander.addEventListener ('click', () => {
             localStorage.setItem('commande',response.orderId);
             localStorage.setItem('email',response.contact.email);
             document.location.href = 'validation.html';
+            
         }
+    localStorage.clear();
         
 });
 
