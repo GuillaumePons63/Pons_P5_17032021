@@ -45,17 +45,23 @@ request.onreadystatechange = function () {
             input.type = 'number' ;
             input.min = '1';
             input.classList.add('my-3','mx-auto','col-6');
-            input.placeholder = '1';
             bouton.type = 'button' ;
             bouton.value = 'Ajouter au panier';
+            const erreur = document.createElement('p');
+            content.appendChild(erreur);
             bouton.classList.add('btn','btn-success','mx-auto','my-3','col-6');
             bouton.onclick = function () {
-                let ajoutPanier = {
-                    produit : response[produit]._id,
-                    quantity : input.value,
-                }
-                localStorage.setItem('achat',JSON.stringify(ajoutPanier));
-                document.location.href = "panier.html";
+                if (input.value !== null && input.value !== '') {
+                    let ajoutPanier = {
+                        produit : response[produit]._id,
+                        quantity : input.value,
+                        }                    
+                    localStorage.setItem('achat',JSON.stringify(ajoutPanier));
+                    document.location.href = "panier.html";
+                    }
+                else{
+                    erreur.textContent = 'Veuillez choisir une quantité' ;
+                } 
             }
         }
         
