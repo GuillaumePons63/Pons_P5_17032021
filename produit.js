@@ -36,7 +36,7 @@ request.onreadystatechange = function () {
             const row = document.createElement('div'); 
             const bouton = document.createElement ('input');
             content.appendChild(titre);
-            content.appendChild(row)
+            content.appendChild(row);
             row.appendChild(input);
             content.appendChild(bouton);
             titre.textContent = 'Quantité' ;
@@ -44,6 +44,7 @@ request.onreadystatechange = function () {
             row.classList.add('row','mx-auto');
             input.type = 'number' ;
             input.min = '1';
+            input.step = '1';
             input.classList.add('my-3','mx-auto','col-6');
             bouton.type = 'button' ;
             bouton.value = 'Ajouter au panier';
@@ -51,17 +52,21 @@ request.onreadystatechange = function () {
             content.appendChild(erreur);
             bouton.classList.add('btn','btn-success','mx-auto','my-3','col-6');
             bouton.onclick = function () {
-                if (input.value !== null && input.value !== '') {
+                console.log(input.value);
+                if (input.value === null || input.value === '') {
+                    erreur.textContent = 'Veuillez choisir une quantité' ;
+                } 
+                else if ((parseFloat(input.value) == parseInt(input.value)) && !isNaN(input.value)){
                     let ajoutPanier = {
                         produit : response[produit]._id,
                         quantity : input.value,
                         }                    
                     localStorage.setItem('achat',JSON.stringify(ajoutPanier));
-                    document.location.href = "panier.html";
-                    }
-                else{
-                    erreur.textContent = 'Veuillez choisir une quantité' ;
-                } 
+                    document.location.href = "panier.html";                  
+                }                   
+                else{                
+                    erreur.textContent = 'Veuillez rentrer une quantité valide';
+                }
             }
         }
         
