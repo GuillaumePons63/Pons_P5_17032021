@@ -43,19 +43,30 @@ document.addEventListener ('DOMContentLoaded', function(){
                 const nom = document.createElement('div');
                 const prix = document.createElement('div');
                 const quantity = document.createElement('div');
+                const supprimer = document.createElement('input');
+                const prixTotal = document.getElementById('total');
                 article.appendChild(Img);
                 article.appendChild(nom);
                 article.appendChild(prix);
                 article.appendChild(quantity);
+                article.appendChild(supprimer);                
                 Img.src = response.imageUrl;
-                Img.classList.add('col-3');
+                Img.classList.add('col-2');
                 nom.textContent=response.name;
-                nom.classList.add('col-3');
+                nom.classList.add('col-2');
                 prix.textContent=response.price+'€';
-                prix.classList.add('col-3');
+                prix.classList.add('col-2');
                 quantity.textContent='Quantité :'+panier[i].quantity;
-                quantity.classList.add('col-3');
-                const prixTotal = document.getElementById('total');
+                quantity.classList.add('col-3');  
+                supprimer.value='supprimer';
+                supprimer.type='button';
+                supprimer.classList.add('col-3','btn','btn-danger');
+                supprimer.onclick = function (){
+                    panier.splice(panier[i],1);
+                    console.log(panier);
+                    localStorage.setItem('ajoutPanier',JSON.stringify(panier));
+                    document.location.reload();
+                }             
                 PrixTotal += (panier[i].quantity * response.price);
                 prixTotal.textContent = 'Prix Total : ' + PrixTotal + '€';
                 localStorage.setItem('prix',PrixTotal);
