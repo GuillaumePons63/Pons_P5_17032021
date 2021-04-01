@@ -38,19 +38,21 @@
         <div class=row>
             <a class='btn btn-primary m-2 col-12' href=index.html> Continuer mes achats</a>
         </div>
-        <h2> Formulaire de commande</h2>
-            <label class=col-12 for=lastName> Nom </label>
-            <input class=col-8 type=text id=lastName />
-            <label class=col-12 for=firstName> Prénom </label>
-            <input class=col-8 type=text id=firstName /> 
-            <label class=col-12 for=adress> Adresse </label>
-            <input class=col-8 type=text id=adress />
-            <label class=col-12 for=city> Ville </label>
-            <input class=col-8 type=text id=city />
-            <label class=col-12 for=email> E-mail </label>
-            <input class=col-8 type=email id=email />
-            <button class='btn btn-success m-2 col-12' id=commande>Valider ma commande</button>
-        </div>
+        <form>
+            <h2> Formulaire de commande</h2>
+                <label class=col-12 for=lastName> Nom </label>
+                <input class=col-8 type=text id=lastName required />
+                <label class=col-12 for=firstName> Prénom </label>
+                <input class=col-8 type=text id=firstName required /> 
+                <label class=col-12 for=adress> Adresse </label>
+                <input class=col-8 type=text id=adress required />
+                <label class=col-12 for=city> Ville </label>
+                <input class=col-8 type=text id=city required />
+                <label class=col-12 for=email> E-mail </label>
+                <input class=col-8 type=email id=email required />
+                <button class='btn btn-success m-2 col-12' id=commande>Valider ma commande</button>
+        </form>
+    </div>
 </main>
 <!-- Footer -->
 <footer>
