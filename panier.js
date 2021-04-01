@@ -3,64 +3,67 @@ let panierParse = localStorage.getItem('ajoutPanier');
 
 let ajoutPanier = JSON.parse(panierParse);
 let achat = JSON.parse(achatParse);
+console.log(ajoutPanier);
+console.log(achat);
 
 
 let panier = [];
-    for (let i in ajoutPanier) {
-        panier.push(ajoutPanier[i])
-    }
-panier.push(achat);
+for (let i in ajoutPanier) {
+    panier.push(ajoutPanier[i])
+}
+
+if (achat!==null) {
+    panier.push(achat)
+};
+
 localStorage.setItem('ajoutPanier',JSON.stringify(panier));
+localStorage.removeItem('achat');
 console.log(panier);
-
-
-let products= [];
-    for (let i = 0; i < achat.quantity; i++) {
-    products.push(achat.produit);
-    }
-
-
 
 const commander = document.getElementById('commande');
 let PrixTotal=0;
 
-
-for (let i in panier) {
-    let request = new XMLHttpRequest();
-    document.addEventListener ('DOMContentLoaded', function() {
-        request.open("GET", "http://localhost:3000/api/teddies/"+panier[i].produit);
-        request.send();
-    });
-
-    request.onreadystatechange = function () {
-        if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
-        let response = JSON.parse(this.responseText);
-        const article = document.getElementById('panier');
-        const Img = document.createElement('img');
-        const nom = document.createElement('div');
-        const prix = document.createElement('div');
-        const quantity = document.createElement('div');
-        article.appendChild(Img);
-        article.appendChild(nom);
-        article.appendChild(prix);
-        article.appendChild(quantity);
-        Img.src = response.imageUrl;
-        Img.classList.add('col-3');
-        nom.textContent=response.name;
-        nom.classList.add('col-3');
-        prix.textContent=response.price+'€';
-        prix.classList.add('col-3');
-        quantity.textContent='Quantité :'+panier[i].quantity;
-        quantity.classList.add('col-3');
-        const prixTotal = document.getElementById('total');
-        PrixTotal += (panier[i].quantity * response.price);
-        console.log(PrixTotal);
-        prixTotal.textContent = PrixTotal + '€';
-        localStorage.setItem('prix',PrixTotal);
+document.addEventListener ('DOMContentLoaded', function(){
+    if(panier.length===0) {
+        const total = document.getElementById('total');
+        total.textContent='Votre panier est vide';
+        total.classList.add('text-center');
+    }
+    else {
+        for (let i in panier) {
+            let request = new XMLHttpRequest();
+            request.open("GET", "http://localhost:3000/api/teddies/"+panier[i].produit);
+            request.send();
+        
+            request.onreadystatechange = function () {
+                if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                const article = document.getElementById('panier');
+                const Img = document.createElement('img');
+                const nom = document.createElement('div');
+                const prix = document.createElement('div');
+                const quantity = document.createElement('div');
+                article.appendChild(Img);
+                article.appendChild(nom);
+                article.appendChild(prix);
+                article.appendChild(quantity);
+                Img.src = response.imageUrl;
+                Img.classList.add('col-3');
+                nom.textContent=response.name;
+                nom.classList.add('col-3');
+                prix.textContent=response.price+'€';
+                prix.classList.add('col-3');
+                quantity.textContent='Quantité :'+panier[i].quantity;
+                quantity.classList.add('col-3');
+                const prixTotal = document.getElementById('total');
+                PrixTotal += (panier[i].quantity * response.price);
+                prixTotal.textContent = 'Prix Total : ' + PrixTotal + '€';
+                localStorage.setItem('prix',PrixTotal);
+                };
+            };
         };
-    };
-}
-
+    }
+});
 
 
 commander.addEventListener ('click', () => {
@@ -94,4 +97,9 @@ commander.addEventListener ('click', () => {
     localStorage.clear();
         
 });
+
+let products= [];
+    for (let i = 0; i < achat.quantity; i++) {
+    products.push(achat.produit);
+    }
 
