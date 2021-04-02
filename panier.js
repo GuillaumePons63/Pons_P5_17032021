@@ -23,6 +23,16 @@ console.log(panier);
 const commander = document.getElementById('commande');
 let PrixTotal=0;
 
+let products= [];
+
+for (let i in panier) {
+    for (let j = 0; j < panier[i].quantity; j++) {
+    products.push(panier[i].produit);
+    }
+}
+
+    console.log(products);
+
 document.addEventListener ('DOMContentLoaded', function(){
     if(panier.length===0) {
         const total = document.getElementById('total');
@@ -113,8 +123,5 @@ commander.addEventListener ('click', () => {
         
 });
 
-let products= [];
-    for (let i = 0; i < achat.quantity; i++) {
-    products.push(achat.produit);
-    }
+
 
