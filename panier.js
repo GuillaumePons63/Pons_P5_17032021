@@ -30,8 +30,7 @@ for (let i in panier) {
     products.push(panier[i].produit);
     }
 }
-
-    console.log(products);
+console.log(products);
 
 document.addEventListener ('DOMContentLoaded', function(){
     if(panier.length===0) {
@@ -83,7 +82,6 @@ document.addEventListener ('DOMContentLoaded', function(){
                 }             
                 PrixTotal += (panier[i].quantity * response.price);
                 prixTotal.textContent = 'Prix Total : ' + PrixTotal + '€';
-                localStorage.setItem('prix',PrixTotal);
                 };
             };
         };
@@ -92,18 +90,34 @@ document.addEventListener ('DOMContentLoaded', function(){
 
 
 commander.addEventListener ('click', () => {
-        let lastName = document.getElementById('lastName');
-        let firstName = document.getElementById('firstName');
-        let adress = document.getElementById('adress');
-        let city = document.getElementById('city');
-        let email = document.getElementById('email');
+    let lastName = document.getElementById('lastName');
+    let firstName = document.getElementById('firstName');
+    let adress = document.getElementById('adress');
+    let city = document.getElementById('city');
+    let email = document.getElementById('email');
+    let erreur = document.getElementById('erreur');
+    if (lastName.validity.valueMissing) {
+        erreur.textContent = 'Veuillez renseigner un Nom';
+    } else if (firstName.validity.valueMissing) {
+        erreur.textContent = 'Veuillez renseigner un prénom';
+    } else if (adress.validity.valueMissing) {
+        erreur.textContent = 'veuillez renseigner une adresse';
+    } else if (city.validity.valueMissing) {
+        erreur.textContent = 'veuillez renseigner une ville';
+    } else if (email.validity.valueMissing) {
+        erreur.textContent = 'veuillez renseigner un Email';
+    } else if (!email.checkValidity()) {
+        erreur.textContent = 'veuillez rentrer un Email valide';
+    } else if (products.length==0) {
+        erreur.textContent = 'votre panier est vide';
+    } else {
         const envoie = {
             contact :{
             firstName : firstName.value,
             lastName : lastName.value,            
             address : adress.value,
             city : city.value,
-            email : email.value
+            email : email.value,
         },
         products,
     };
@@ -116,10 +130,11 @@ commander.addEventListener ('click', () => {
             localStorage.setItem('nom',response.contact.lastName);
             localStorage.setItem('commande',response.orderId);
             localStorage.setItem('email',response.contact.email);
+            localStorage.setItem('prix',PrixTotal);
             document.location.href = 'validation.html';
-            
         }
     localStorage.clear();
+    }
         
 });
 

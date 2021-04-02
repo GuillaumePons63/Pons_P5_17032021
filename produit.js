@@ -2,6 +2,8 @@ let produit = localStorage.getItem('product');
 let request = new XMLHttpRequest();
 
 
+
+
 document.addEventListener ('DOMContentLoaded', function() {
     request.open("GET", "http://localhost:3000/api/teddies");
     request.send();
@@ -29,45 +31,45 @@ request.onreadystatechange = function () {
             choix.textContent = response[produit].colors[i];
         price.textContent = response[produit].price + '€';
         };
-        commande.onclick = function () {
-            const content = document.getElementById ('quantiteContent') ;
-            const titre = document.createElement ('div');
-            const input = document.createElement('input');
-            const row = document.createElement('div'); 
-            const bouton = document.createElement ('input');
-            content.appendChild(titre);
-            content.appendChild(row);
-            row.appendChild(input);
-            content.appendChild(bouton);
-            titre.textContent = 'Quantité' ;
-            titre.classList.add('fw-bold');
-            row.classList.add('row','mx-auto');
-            input.type = 'number' ;
-            input.min = '1';
-            input.step = '1';
-            input.classList.add('my-3','mx-auto','col-6');
-            bouton.type = 'button' ;
-            bouton.value = 'Ajouter au panier';
-            const erreur = document.createElement('p');
-            content.appendChild(erreur);
-            bouton.classList.add('btn','btn-success','mx-auto','my-3','col-6');
-            bouton.onclick = function () {
-                console.log(input.value);
-                if (input.value === null || input.value === '') {
-                    erreur.textContent = 'Veuillez choisir une quantité' ;
-                } 
-                else if ((parseFloat(input.value) == parseInt(input.value)) && !isNaN(input.value)){
-                    let ajoutPanier = {
-                        produit : response[produit]._id,
-                        quantity : input.value,
-                        }                    
-                    localStorage.setItem('achat',JSON.stringify(ajoutPanier));
-                    document.location.href = "panier.html";                  
-                }                   
-                else{                
-                    erreur.textContent = 'Veuillez rentrer une quantité valide';
+        const content = document.getElementById ('quantiteContent') ;
+        const sousTitre = document.createElement ('div');
+        const input = document.createElement('input');
+        const row = document.createElement('div'); 
+        const bouton = document.createElement ('input');
+        const erreur = document.createElement('p');
+            commande.onclick = function () {
+                content.appendChild(sousTitre);
+                content.appendChild(row);
+                row.appendChild(input);
+                content.appendChild(bouton);
+                sousTitre.textContent = 'Quantité' ;
+                sousTitre.classList.add('fw-bold');
+                row.classList.add('row','mx-auto');
+                input.type = 'number' ;
+                input.min = '1';
+                input.step = '1';
+                input.classList.add('my-3','mx-auto','col-6');
+                bouton.type = 'button' ;
+                bouton.value = 'Ajouter au panier';
+                content.appendChild(erreur);
+                bouton.classList.add('btn','btn-success','mx-auto','my-3','col-6');
+                bouton.onclick = function () {
+                    console.log(input.value);
+                    if (input.value === null || input.value === '') {
+                        erreur.textContent = 'Veuillez choisir une quantité' ;
+                    } 
+                    else if ((parseFloat(input.value) == parseInt(input.value)) && !isNaN(input.value)){
+                        let ajoutPanier = {
+                            produit : response[produit]._id,
+                            quantity : input.value,
+                            }                    
+                        localStorage.setItem('achat',JSON.stringify(ajoutPanier));
+                        document.location.href = "panier.html";                  
+                    }                   
+                    else{                
+                        erreur.textContent = 'Veuillez rentrer une quantité valide';
+                    }
                 }
-            }
         }
         
     };
