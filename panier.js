@@ -9,7 +9,18 @@ console.log(achat);
 
 let panier = [];
 for (let i in ajoutPanier) {
-    panier.push(ajoutPanier[i])
+    if (achat == null) {
+        panier.push(ajoutPanier[i]);
+    } else if (achat.produit == ajoutPanier[i].produit) {
+    let doublon = {
+    produit : ajoutPanier[i].produit,
+    quantity : Number(achat.quantity) + Number(ajoutPanier[i].quantity),
+    }
+    achat=[];
+    panier.push(doublon);
+    } else {
+        panier.push(ajoutPanier[i]);
+    }    
 }
 
 if (achat!==null) {
@@ -44,7 +55,7 @@ document.addEventListener ('DOMContentLoaded', function(){
             request.open("GET", "http://localhost:3000/api/teddies/"+panier[i].produit);
             request.send();
         
-            request.onreadystatechange = function () {
+            request.onload = function () {
                 if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
                 let response = JSON.parse(this.responseText);
                 const article = document.getElementById('panier');
@@ -89,13 +100,14 @@ document.addEventListener ('DOMContentLoaded', function(){
 });
 
 
-commander.addEventListener ('click', () => {
+commander.addEventListener ('click', (event) => {
     let lastName = document.getElementById('lastName');
     let firstName = document.getElementById('firstName');
     let adress = document.getElementById('adress');
     let city = document.getElementById('city');
     let email = document.getElementById('email');
     let erreur = document.getElementById('erreur');
+    event.preventDefault();
     if (lastName.validity.valueMissing) {
         erreur.textContent = 'Veuillez renseigner un Nom';
     } else if (firstName.validity.valueMissing) {

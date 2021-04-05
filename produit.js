@@ -9,7 +9,7 @@ document.addEventListener ('DOMContentLoaded', function() {
     request.send();
 });
 
-request.onreadystatechange = function () {
+request.onload = function () {
     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
         let response = JSON.parse(this.responseText);
         const titre = document.getElementById('titre');
