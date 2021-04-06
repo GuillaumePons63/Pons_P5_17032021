@@ -1,40 +1,33 @@
 /* Partie du code qui sert à générer le panier */
-
 function objetParse (objet) {
     let getObjet = localStorage.getItem(objet);
     let parse = JSON.parse(getObjet);
     return parse;
 }
-
-let achat = objetParse ('achat');
+let nouveauProduit = objetParse ('achat');
 let ajoutPanier = objetParse ('ajoutPanier');
-
 let panier = [];
 for (let i in ajoutPanier) {
-    if (achat == null) {
+    if (nouveauProduit == null) {
         panier.push(ajoutPanier[i]);
-    } else if (achat.produit == ajoutPanier[i].produit) {
+    } else if (nouveauProduit.produit == ajoutPanier[i].produit) {
     let doublon = {
     produit : ajoutPanier[i].produit,
-    quantity : Number(achat.quantity) + Number(ajoutPanier[i].quantity),
+    quantity : Number(nouveauProduit.quantity) + Number(ajoutPanier[i].quantity),
     }
-    achat=[];
+    nouveauProduit=[];
     panier.push(doublon);
     } else {
         panier.push(ajoutPanier[i]);
     }    
 }
-if (achat!==null) {
-    panier.push(achat)
+if (nouveauProduit!==null) {
+    panier.push(nouveauProduit)
 };
 localStorage.setItem('ajoutPanier',JSON.stringify(panier));
 localStorage.removeItem('achat');
 
-
-const commander = document.getElementById('commande');
-
-let PrixTotal=0;
-
+/* construction du tableau de produit pour l'envoie à l'API */
 let products= [];
 for (let i in panier) {
     for (let j = 0; j < panier[i].quantity; j++) {
@@ -42,13 +35,18 @@ for (let i in panier) {
     }
 };
 
+const commander = document.getElementById('commande');
+let PrixTotal=0;
 
+/* Element à charger après le chargement du DOM*/
 document.addEventListener ('DOMContentLoaded', function(){
+/* Vérifie si le panier est vide */
     if(panier.length===0) {
         const total = document.getElementById('total');
         total.textContent='Votre panier est vide';
         total.classList.add('text-center');
     }
+/* Si le panier n'est pas vide, le script génére les éléments HTML du panier */
     else {
         for (let i in panier) {
             let request = new XMLHttpRequest();
@@ -76,31 +74,33 @@ document.addEventListener ('DOMContentLoaded', function(){
                 Img.classList.add('col-2','d-block','h-75','my-auto');
                 nom.textContent=response.name;
                 nom.classList.add('col-2','my-auto');
-                prix.textContent=response.price+'€';
+                prix.textContent=response.price/100+'€';
                 prix.classList.add('col-2','my-auto');
                 quantity.textContent=panier[i].quantity;
                 quantity.classList.add('col-2','my-auto');
+/* Calcul et affichage du prix du panier */
                 prixTotalProduit.classList.add('col-3','my-auto'); 
-                prixTotalProduit.textContent =  panier[i].quantity*response.price+'€';
+                prixTotalProduit.textContent =  panier[i].quantity*response.price/100+'€';
+                PrixTotal += (panier[i].quantity * response.price/100);
+                prixTotal.textContent = 'Prix Total : ' + PrixTotal + '€';
+/* Suppression d'un produit dans le panier */
                 supprimer.value='X';
                 supprimer.type='button';
                 supprimer.classList.add('col-1','btn','btn-danger','btn-xs','my-5','p-auto');
-                supprimer.onclick = function (){
-                    panier.splice(panier[i],1);
-                    console.log(panier);
-                    localStorage.setItem('ajoutPanier',JSON.stringify(panier));
-                    document.location.reload();
-                }             
-                PrixTotal += (panier[i].quantity * response.price);
-                prixTotal.textContent = 'Prix Total : ' + PrixTotal + '€';
+                    supprimer.onclick = function (){
+                        panier.splice(Number(panier[i]),1);
+                        console.log(panier);
+                        localStorage.setItem('ajoutPanier',JSON.stringify(panier));
+                        document.location.reload();
+                    };             
                 };
             };
         };
-    }
+    };
 });
 
-
 commander.addEventListener ('click', (event) => {
+/* Validation des inputs utilisateurs */
     let lastName = document.getElementById('lastName');
     let firstName = document.getElementById('firstName');
     let adress = document.getElementById('adress');
@@ -110,6 +110,8 @@ commander.addEventListener ('click', (event) => {
     event.preventDefault();
     if (lastName.validity.valueMissing) {
         erreur.textContent = 'Veuillez renseigner un Nom';
+    } else if (lastName.checkValidity()) {
+        erreur.textContent = 'Veuillez entrer un Nom valide';
     } else if (firstName.validity.valueMissing) {
         erreur.textContent = 'Veuillez renseigner un prénom';
     } else if (adress.validity.valueMissing) {
@@ -133,6 +135,7 @@ commander.addEventListener ('click', (event) => {
         },
         products,
     };
+/* Envoie si tous les inputs sont valides à l'API */
         let requeteAchat = new XMLHttpRequest() ;
         requeteAchat.open("POST","http://localhost:3000/api/teddies/order");
         requeteAchat.setRequestHeader("Content-Type","application/json");
@@ -140,12 +143,14 @@ commander.addEventListener ('click', (event) => {
         
         requeteAchat.onload = function () {
             let response = JSON.parse(requeteAchat.response);
+/* Enregistre les données pour la page validation avant d'y acceder */
             localStorage.setItem('nom',response.contact.lastName);
             localStorage.setItem('commande',response.orderId);
             localStorage.setItem('email',response.contact.email);
             localStorage.setItem('prix',PrixTotal);
             document.location.href = 'validation.html';
         }
+/* Pour réinitialiser le panier */
     localStorage.clear();
     }        
 });

@@ -23,7 +23,7 @@ request.onload = function traitementRequête () {
         Img.src = response[produit].imageUrl;
         Img.classList.add("d-block","mx-auto","img-fluid");
         description.textContent =response[produit].description;
-        price.textContent = response[produit].price + '€';
+        price.textContent = response[produit].price/100 + '€';
 /* Permet de charger le tableau de couleur du produit et de l'afficher */
         for (let i in response[produit].colors) {
             let choix = document.createElement('option');

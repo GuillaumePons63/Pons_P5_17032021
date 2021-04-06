@@ -7,8 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/ce82fe516e.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    <script type="text/javascript" src=server.js></script>
-    <script type="text/javascript" src=app.js></script>
+    
 </head>
 <body>
 <!-- section header et navigation -->
@@ -49,7 +48,7 @@
         <form>
             <h2> Formulaire de commande</h2>
                 <label class=col-12 for=lastName> Nom </label>
-                <input class=col-8 type=text id=lastName required />
+                <input class=col-8 type=text id=lastName pattern="#^([a-z]+(( |')[a-z]+)*)+([-]([a-z]+(( |')[a-z]+)*)+)*$#iu" required />
                 <label class=col-12 for=firstName> Prénom </label>
                 <input class=col-8 type=text id=firstName required /> 
                 <label class=col-12 for=adress> Adresse </label>

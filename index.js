@@ -1,4 +1,4 @@
-let request = new XMLHttpRequest();
+let request = new XMLHttpRequest(); 
 
 
 document.addEventListener ('DOMContentLoaded', function envoieRequete() {
@@ -9,6 +9,7 @@ document.addEventListener ('DOMContentLoaded', function envoieRequete() {
 request.onload = function traitementRequete () {
         if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
             let response = JSON.parse(this.responseText);
+/* Génération des élèments HTML pour chaque élèment du tableau de produit de l'API */
             for (let i in response) {
                 let content = document.getElementById('mainContent');
                 const main = document.createElement ("div");
@@ -28,6 +29,7 @@ request.onload = function traitementRequete () {
                 main.appendChild(lienProduit);
                 lienProduit.classList.add("btn","btn-info","mx-auto","d-block","col-6","my-3");
                 lienProduit.value="Fiche Produit";
+/* Fonction qui permet de changer de page et d'afficher la page produit*/
                 lienProduit.onclick = function lienProduit () {
                     localStorage.setItem('product',i);
                     document.location.href = "produit.html";
