@@ -1,11 +1,13 @@
-let achatParse = localStorage.getItem('achat');
-let panierParse = localStorage.getItem('ajoutPanier');
+/* Partie du code qui sert à générer le panier */
 
-let ajoutPanier = JSON.parse(panierParse);
-let achat = JSON.parse(achatParse);
-console.log(ajoutPanier);
-console.log(achat);
+function objetParse (objet) {
+    let getObjet = localStorage.getItem(objet);
+    let parse = JSON.parse(getObjet);
+    return parse;
+}
 
+let achat = objetParse ('achat');
+let ajoutPanier = objetParse ('ajoutPanier');
 
 let panier = [];
 for (let i in ajoutPanier) {
@@ -22,26 +24,24 @@ for (let i in ajoutPanier) {
         panier.push(ajoutPanier[i]);
     }    
 }
-
 if (achat!==null) {
     panier.push(achat)
 };
-
 localStorage.setItem('ajoutPanier',JSON.stringify(panier));
 localStorage.removeItem('achat');
-console.log(panier);
+
 
 const commander = document.getElementById('commande');
+
 let PrixTotal=0;
 
 let products= [];
-
 for (let i in panier) {
     for (let j = 0; j < panier[i].quantity; j++) {
     products.push(panier[i].produit);
     }
-}
-console.log(products);
+};
+
 
 document.addEventListener ('DOMContentLoaded', function(){
     if(panier.length===0) {
@@ -137,6 +137,7 @@ commander.addEventListener ('click', (event) => {
         requeteAchat.open("POST","http://localhost:3000/api/teddies/order");
         requeteAchat.setRequestHeader("Content-Type","application/json");
         requeteAchat.send(JSON.stringify(envoie));
+        
         requeteAchat.onload = function () {
             let response = JSON.parse(requeteAchat.response);
             localStorage.setItem('nom',response.contact.lastName);
@@ -146,8 +147,7 @@ commander.addEventListener ('click', (event) => {
             document.location.href = 'validation.html';
         }
     localStorage.clear();
-    }
-        
+    }        
 });
 
 

@@ -1,17 +1,15 @@
 let produit = localStorage.getItem('product');
 let request = new XMLHttpRequest();
 
-
-
-
-document.addEventListener ('DOMContentLoaded', function() {
+document.addEventListener ('DOMContentLoaded', function envoieRequête () {
     request.open("GET", "http://localhost:3000/api/teddies");
     request.send();
 });
 
-request.onload = function () {
+request.onload = function traitementRequête () {
     if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
         let response = JSON.parse(this.responseText);
+/* Partie qui génére le code HTMl d'affichage de la fiche produit */
         const titre = document.getElementById('titre');
         const image = document.getElementById('image');
         const description = document.getElementById('description');
@@ -25,12 +23,14 @@ request.onload = function () {
         Img.src = response[produit].imageUrl;
         Img.classList.add("d-block","mx-auto","img-fluid");
         description.textContent =response[produit].description;
+        price.textContent = response[produit].price + '€';
+/* Permet de charger le tableau de couleur du produit et de l'afficher */
         for (let i in response[produit].colors) {
             let choix = document.createElement('option');
             couleur.appendChild(choix);
-            choix.textContent = response[produit].colors[i];
-        price.textContent = response[produit].price + '€';
+            choix.textContent = response[produit].colors[i];       
         };
+/* Permet d'afficher le choix de la quantité */
         const content = document.getElementById ('quantiteContent') ;
         const sousTitre = document.createElement ('div');
         const input = document.createElement('input');
@@ -53,6 +53,7 @@ request.onload = function () {
                 bouton.value = 'Ajouter au panier';
                 content.appendChild(erreur);
                 bouton.classList.add('btn','btn-success','mx-auto','my-3','col-6');
+/* Pour vérifier que l'input de quantité soit valide */
                 bouton.onclick = function () {
                     console.log(input.value);
                     if (input.value === null || input.value === '') {

@@ -1,16 +1,15 @@
 let request = new XMLHttpRequest();
 
 
-document.addEventListener ('DOMContentLoaded', function() {
+document.addEventListener ('DOMContentLoaded', function envoieRequete() {
     request.open("GET", "http://localhost:3000/api/teddies");
     request.send();
 });
       
-request.onload = function () {
+request.onload = function traitementRequete () {
         if (this.readyState == XMLHttpRequest.DONE && this.status == 200) {
             let response = JSON.parse(this.responseText);
-            console.log(response);
-                for (let i in response) {
+            for (let i in response) {
                 let content = document.getElementById('mainContent');
                 const main = document.createElement ("div");
                 const titre = document.createElement ("div");
@@ -29,7 +28,7 @@ request.onload = function () {
                 main.appendChild(lienProduit);
                 lienProduit.classList.add("btn","btn-info","mx-auto","d-block","col-6","my-3");
                 lienProduit.value="Fiche Produit";
-                lienProduit.onclick = function () {
+                lienProduit.onclick = function lienProduit () {
                     localStorage.setItem('product',i);
                     document.location.href = "produit.html";
                 }
