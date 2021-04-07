@@ -41,14 +41,14 @@
             <div class='col-1'></div>
         </div>
         <div id=panier class=row></div>
-        <h2 class=text-end id=total> </h2>
+        <p class='text-end h2' id=total> </p>
         <div class=row>
             <a class='btn btn-primary m-2 col-12' href=index.html> Continuer mes achats</a>
         </div>
         <form>
             <h2> Formulaire de commande</h2>
                 <label class=col-12 for=lastName> Nom </label>
-                <input class=col-8 type=text id=lastName pattern="#^([a-z]+(( |')[a-z]+)*)+([-]([a-z]+(( |')[a-z]+)*)+)*$#iu" required />
+                <input class=col-8 type=text id=lastName required />
                 <label class=col-12 for=firstName> Prénom </label>
                 <input class=col-8 type=text id=firstName required /> 
                 <label class=col-12 for=adress> Adresse </label>
@@ -78,6 +78,6 @@
         </div>
     </div>
 </footer>
-<script type="text/javascript" src=panier.js></script>
+<script src=panier.js></script>
 </body>
 </html>

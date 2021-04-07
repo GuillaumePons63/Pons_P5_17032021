@@ -110,8 +110,6 @@ commander.addEventListener ('click', (event) => {
     event.preventDefault();
     if (lastName.validity.valueMissing) {
         erreur.textContent = 'Veuillez renseigner un Nom';
-    } else if (lastName.checkValidity()) {
-        erreur.textContent = 'Veuillez entrer un Nom valide';
     } else if (firstName.validity.valueMissing) {
         erreur.textContent = 'Veuillez renseigner un prénom';
     } else if (adress.validity.valueMissing) {
@@ -125,6 +123,7 @@ commander.addEventListener ('click', (event) => {
     } else if (products.length==0) {
         erreur.textContent = 'votre panier est vide';
     } else {
+/* Création de l'objet en envoyer à l'api */
         const envoie = {
             contact :{
             firstName : firstName.value,
@@ -142,16 +141,19 @@ commander.addEventListener ('click', (event) => {
         requeteAchat.send(JSON.stringify(envoie));
         
         requeteAchat.onload = function () {
-            let response = JSON.parse(requeteAchat.response);
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 200){
+                let response = JSON.parse(requeteAchat.response);
+                localStorage.clear();
 /* Enregistre les données pour la page validation avant d'y acceder */
-            localStorage.setItem('nom',response.contact.lastName);
-            localStorage.setItem('commande',response.orderId);
-            localStorage.setItem('email',response.contact.email);
-            localStorage.setItem('prix',PrixTotal);
-            document.location.href = 'validation.html';
+                localStorage.setItem('nom',response.contact.lastName);
+                localStorage.setItem('commande',response.orderId);
+                localStorage.setItem('email',response.contact.email);
+                localStorage.setItem('prix',PrixTotal);
+                document.location.href = 'validation.html';
+            }
         }
 /* Pour réinitialiser le panier */
-    localStorage.clear();
+    
     }        
 });
 
