@@ -141,17 +141,18 @@ commander.addEventListener ('click', (event) => {
         requeteAchat.send(JSON.stringify(envoie));
         
         requeteAchat.onload = function () {
-            if (this.readyState == XMLHttpRequest.DONE && this.status == 200){
-                let response = JSON.parse(requeteAchat.response);
+            if (this.readyState == XMLHttpRequest.DONE && this.status == 201) {
+                let reponse = JSON.parse(this.responseText);
                 localStorage.clear();
 /* Enregistre les données pour la page validation avant d'y acceder */
-                localStorage.setItem('nom',response.contact.lastName);
-                localStorage.setItem('commande',response.orderId);
-                localStorage.setItem('email',response.contact.email);
+                localStorage.setItem('nom',reponse.contact.lastName);
+                localStorage.setItem('commande',reponse.orderId);
+                localStorage.setItem('email',reponse.contact.email);
                 localStorage.setItem('prix',PrixTotal);
                 document.location.href = 'validation.html';
             }
-        }
+    }
+        
 /* Pour réinitialiser le panier */
     
     }        
