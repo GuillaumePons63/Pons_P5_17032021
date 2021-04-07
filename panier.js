@@ -107,10 +107,15 @@ commander.addEventListener ('click', (event) => {
     let city = document.getElementById('city');
     let email = document.getElementById('email');
     let erreur = document.getElementById('erreur');
+    let regex = new RegExp ("[0-9]");
     event.preventDefault();
     if (lastName.validity.valueMissing) {
         erreur.textContent = 'Veuillez renseigner un Nom';
-    } else if (firstName.validity.valueMissing) {
+    } else if (regex.test(lastName.value)) {
+        erreur.textContent = 'Veuillez entrer un Nom Valide';
+    }  else if (regex.test(firstName.value)) {
+        erreur.textContent = 'Veuillez entrer un Prénom Valide';
+    }    else if (firstName.validity.valueMissing) {
         erreur.textContent = 'Veuillez renseigner un prénom';
     } else if (adress.validity.valueMissing) {
         erreur.textContent = 'veuillez renseigner une adresse';
@@ -151,10 +156,8 @@ commander.addEventListener ('click', (event) => {
                 localStorage.setItem('prix',PrixTotal);
                 document.location.href = 'validation.html';
             }
-    }
-        
+        }        
 /* Pour réinitialiser le panier */
-    
     }        
 });
 
