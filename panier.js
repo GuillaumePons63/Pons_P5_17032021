@@ -89,7 +89,6 @@ document.addEventListener ('DOMContentLoaded', function(){
                 supprimer.classList.add('col-1','btn','btn-danger','btn-xs','my-5','p-auto');
                     supprimer.onclick = function (){
                         panier.splice(Number(panier[i]),1);
-                        console.log(panier);
                         localStorage.setItem('ajoutPanier',JSON.stringify(panier));
                         document.location.reload();
                     };             
@@ -98,6 +97,7 @@ document.addEventListener ('DOMContentLoaded', function(){
         };
     };
 });
+
 
 commander.addEventListener ('click', (event) => {
 /* Validation des inputs utilisateurs */
